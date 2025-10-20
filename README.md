@@ -35,26 +35,29 @@ notify: # ip变化时播送提醒
 命令注册为 `ipc`（别名 `ipcheck`），需要**管理员权限**：
 
 - 查询当前公网 IP：
-
-	ipc
+- 
+```bash
+/ipc
+```
 
 - 查询上一次记录的 IP：
 
-	ipc -l
+```bash
+/ipc -l
+/ipc --last
+```
 
-	或
-
-	ipc --last
+以上指令选择其一使用。
 
 - 订阅或取消订阅当前会话（群或私聊）IP 变更通知：
 
-	ipc -s
+```bash
+/ipc -s
+/ipc --subscribe
+```
+以上指令选择其一使用。
 
-	或
-
-	ipc --subscribe
-
-如果 `-s/--subscribe` 在群聊中使用，将在 `notify.group` 中添加/移除该群；在私聊中使用则添加/移除私聊用户 ID。插件会在订阅或退订时回复确认信息。
+> 如果 `-s/--subscribe` 在群聊中使用，将在 `notify.group` 中添加/移除该群；在私聊中使用则添加/移除私聊用户 ID。插件会在订阅或退订时回复确认信息。
 
 示例回复：
 
@@ -79,19 +82,11 @@ notify: # ip变化时播送提醒
 
 "提醒一下！宿主机IP已从 1.2.3.4 更改为 5.6.7.8。"
 
-## 内部实现（简要）
+## 实现
 
 - `fetch_ip()`：通过 `requests.get('https://ipv4.icanhazip.com')` 获取 IP 文本，校验为合法 IPv4 后返回。
 - IP 校验由 `_is_ipv4()` 完成，检查点分四段且每段 0-255。
 - 插件在 `on_load` 中调用 `init_config()` 和 `init_scheduler()` 完成配置注册与任务初始化。
-
-## 开发与调试
-
-1. 在本地运行 bot 并加载该插件，观察日志以确认定时任务是否被注册（如果 `notify.enabled` 为 `True`）。
-2. 手动测试命令：在管理员账户下发送 `ipc`、`ipc -l` 与 `ipc -s`。
-3. 单元测试建议：
-	 - 对 `fetch_ip()` 使用 requests 的 mock（例如 `responses` 或 `requests-mock`）来模拟不同 HTTP 状态与超时场景。
-	 - 对 `_is_ipv4()` 编写边界测试（例如 `0.0.0.0`, `255.255.255.255`, `256.1.1.1`）。
 
 ## 许可
 
@@ -99,4 +94,4 @@ notify: # ip变化时播送提醒
 
 ## 贡献
 
-通过issue或pr进行贡献，感谢！
+通过 issue 或 pr 进行贡献，感谢！
