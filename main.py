@@ -6,7 +6,7 @@ from .utils import fetch_ip
 
 class IPChecker(NcatBotPlugin):
     name = "IPChecker"
-    version = "1.0.0"
+    version = "1.0.1"
     description = "一个用于检查机器人宿主机IP地址的插件，支持定时检查并播送到指定群聊/个人。"
     log = get_log(name)
 
